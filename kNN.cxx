@@ -1,7 +1,7 @@
 #include"readData.h"
 
 //コンパイルコマンドは
-// g++ programing.cxx vector.o vectorArray.o readData.cxx
+// g++ kNN_check.cxx vector.o vectorArray.o readData.cxx
 
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c);
 
@@ -91,8 +91,8 @@ int main(void){
 	      << " -> [" << trainData[minIndex][0] << ", " << trainData[minIndex][1] << "]"
 	      << ", minDistance :" << minDist << std::endl << std::endl;
 
-    minIndexArray[i]=minIndex;
-    minDistArray[i]=minDist;
+    minIndexArray[i][0]=minIndex;
+    minDistArray[i][0]=minDist;
     /* ↑改変箇所↑ */
     
   }
@@ -110,7 +110,7 @@ int main(void){
       std::cout << "minIndex[" << j << "] :" << minIndexArray[i]
 	      << " -> [" << trainData[minIndexArray[i][j]][0]
 	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
-	      << ", minDistance[" << i <<  << minDistArray[i][j] << ", ";   
+	      << ", minDistance[" << i << minDistArray[i][j] << ", ";   
     }
     std::cout << "Class -> " << testLabel[i] << std::endl;
     if(testLabel[i]==0){
@@ -129,8 +129,8 @@ int main(void){
   std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
   /* ↓相関係数rの表示↓ */
-  std::cout << "Class.0: r=" << correlationCoefficient(testData, testLabel, trainData, 0) << std::endl;
-  std::cout << "Class.1: r=" << correlationCoefficient(testData, testLabel, trainData, 1) << std::endl;
+  std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, 0) << std::endl;
+  std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, 1) << std::endl;
   /* ↑相関係数rの表示↑ */
 
   /* ↑改変箇所↑ */
@@ -150,7 +150,7 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
   //Syy=y2Ave-(yAve)^2
   //r=Sxy/sqrt(Sxx*Syy)
 
-  for(i=0;i<testData.rows();i++){
+  for(int i=0;i<testData.rows();i++){
     if(testLabel[i]==c){
       xAve+=testData[i][0];
       x2Ave+=testData[i][0]*testData[i][0];
@@ -160,7 +160,7 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
       d++;
     }
   }
-  for(i=0;i<trainData.rows();i++){
+  for(int i=0;i<trainData.rows();i++){
     if(testLabel[i]==c){
       xAve+=trainData[i][0];
       x2Ave+=trainData[i][0]*trainData[i][0];
@@ -187,4 +187,3 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 
   return r;
 }
-
