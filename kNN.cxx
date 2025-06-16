@@ -108,9 +108,9 @@ int main(void){
       std::cout << ", minIndex[" << j << "] :" << minIndexArray[i]
 	      << " -> [" << trainData[minIndexArray[i][j]][0]
 	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
-	      << ", minDistance[" << i <<  << minDistArray[i][j]
-	      << ", Class -> " << testLabel[i] << std::endl;
+	      << ", minDistance[" << i <<  << minDistArray[i][j] << ", ";   
     }
+    std::cout << "Class -> " << testLabel[i] << std::endl;
     if(testLabel[i]==0){
       class0Number++;
     }
