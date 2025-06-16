@@ -97,17 +97,19 @@ int main(void){
   std::cout << "----- Result -----" << std::endl;
   
   for(int i=0;i<tmp_testData.rows();i++){
-    std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << ", " << tmp_testData[i][1] << "]"
+    for(int j=0;j<kNumber;j++){
+      std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << ", " << tmp_testData[i][1] << "]"
 	      << ", minIndex :" << minIndexArray[i]
-	      << " -> [" << trainData[minIndexArray[i]][0]
-	      << ", " << trainData[minIndexArray[i]][1] << "]"
-	      << ", minDistance :" << minDistArray[i]
+	      << " -> [" << trainData[minIndexArray[i][j]][0]
+	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
+	      << ", minDistance :" << minDistArray[i][j]
 	      << ", Class -> " << testLabel[i] << std::endl;
     if(testLabel[i]==0){
       class0Number++;
     }
     else{
       class1Number++;
+    }
     }
   }
 
