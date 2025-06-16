@@ -3,7 +3,7 @@
 //コンパイルコマンドは
 // g++ kNN_check.cxx vector.o vectorArray.o readData.cxx
 
-double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c);
+double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c);
 
 int main(void){
   /*------ここからデータの読み取り------*/
@@ -110,7 +110,7 @@ int main(void){
       std::cout << "minIndex[" << j << "] :" << minIndexArray[i][j]
 	      << " -> [" << trainData[minIndexArray[i][j]][0]
 	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
-	      << ", minDistance[" << i << minDistArray[i][j] << ", ";   
+		<< ", minDistance[" << j << "] :" << minDistArray[i][j] << ", ";   
     }
     std::cout << "Class -> " << testLabel[i] << std::endl;
     if(testLabel[i]==0){
@@ -129,8 +129,8 @@ int main(void){
   std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
   /* ↓相関係数rの表示↓ */
-  std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, 0) << std::endl;
-  std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, 1) << std::endl;
+  std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 0) << std::endl;
+  std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 1) << std::endl;
   /* ↑相関係数rの表示↑ */
 
   /* ↑改変箇所↑ */
@@ -141,7 +141,7 @@ int main(void){
   return 0;
 }
 
-double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c){
+double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c){
   double r, Sxy, Sxx, Syy, xyAve=0, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
   int d=0;
 
@@ -161,7 +161,7 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
     }
   }
   for(int i=0;i<trainData.rows();i++){
-    if(testLabel[i]==c){
+    if(trainCorrect[i]==c){
       xAve+=trainData[i][0];
       x2Ave+=trainData[i][0]*trainData[i][0];
       yAve+=trainData[i][1];
