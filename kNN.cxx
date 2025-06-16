@@ -131,7 +131,6 @@ int main(void){
   /* ↓相関係数rの表示↓ */
   std::cout << "Class.0: r=" << correlationCoefficient(testData, testLabel, trainData, 0) << std::endl;
   std::cout << "Class.1: r=" << correlationCoefficient(testData, testLabel, trainData, 1) << std::endl;
-
   /* ↑相関係数rの表示↑ */
 
   /* ↑改変箇所↑ */
@@ -143,7 +142,7 @@ int main(void){
 }
 
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c){
-  double r, Sxy, Sxx, Syy, xyAve, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
+  double r, Sxy, Sxx, Syy, xyAve=0, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
   int d=0;
 
   //Sxy=xyAve-xAve*yAve
