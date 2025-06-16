@@ -107,7 +107,7 @@ int main(void){
   for(int i=0;i<tmp_testData.rows();i++){
     std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << ", " << tmp_testData[i][1] << "], ";
     for(int j=0;j<kNumber;j++){
-      std::cout << "minIndex[" << j << "] :" << minIndexArray[i]
+      std::cout << "minIndex[" << j << "] :" << minIndexArray[i][j]
 	      << " -> [" << trainData[minIndexArray[i][j]][0]
 	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
 	      << ", minDistance[" << i << minDistArray[i][j] << ", ";   
