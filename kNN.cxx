@@ -3,6 +3,8 @@
 //コンパイルコマンドは
 // g++ programing.cxx vector.o vectorArray.o readData.cxx
 
+double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c);
+
 int main(void){
   /*------ここからデータの読み取り------*/
   VectorArray trainData;
@@ -126,11 +128,64 @@ int main(void){
   std::cout << "Class.1 data: " << class1Number << std::endl;
   std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
+  /* ↓相関係数rの表示↓ */
+  std::cout << "Class.0: r=" << correlationCoefficient(testData, testLabel, trainData, 0) << std::endl;
+  std::cout << "Class.1: r=" << correlationCoefficient(testData, testLabel, trainData, 1) << std::endl;
+
+  /* ↑相関係数rの表示↑ */
+
   /* ↑改変箇所↑ */
  
   //記録保存
   recordClassified(tmp_testData, testLabel);
 
   return 0;
+}
+
+double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, int c){
+  double r, Sxy, Sxx, Syy, xyAve, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
+  int d=0;
+
+  //Sxy=xyAve-xAve*yAve
+  //Sxx=x2Ave-(xAve)^2
+  //Syy=y2Ave-(yAve)^2
+  //r=Sxy/sqrt(Sxx*Syy)
+
+  for(i=0;i<testData.rows();i++){
+    if(testLabel[i]==c){
+      xAve+=testData[i][0];
+      x2Ave+=testData[i][0]*testData[i][0];
+      yAve+=testData[i][1];
+      y2Ave+=testData[i][1]*testData[i][1];
+      xyAve+=testData[i][0]*testData[i][1];
+      d++;
+    }
+  }
+  for(i=0;i<trainData.rows();i++){
+    if(testLabel[i]==c){
+      xAve+=trainData[i][0];
+      x2Ave+=trainData[i][0]*trainData[i][0];
+      yAve+=trainData[i][1];
+      y2Ave+=trainData[i][1]*trainData[i][1];
+      xyAve+=trainData[i][0]*trainData[i][1];
+      d++;
+    }
+  }
+  if(d!=0){
+    xAve/=double(d);
+    x2Ave/=double(d);
+    yAve/=double(d);
+    y2Ave/=double(d);
+    xyAve/=double(d);
+    Sxy=xyAve-xAve*yAve;
+    Sxx=x2Ave-xAve*xAve;
+    Syy=y2Ave-yAve*yAve;
+    r=Sxy/sqrt(Sxx*Syy);
+  }
+  else{
+    r=0;
+  }
+
+  return r;
 }
 
