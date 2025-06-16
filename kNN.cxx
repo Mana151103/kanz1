@@ -74,7 +74,7 @@ int main(void){
     
     /* ↓改変箇所↓ */
     //テストデータのラベルを決定
-    if()
+    //if()←???
     testLabel[i] = trainCorrect[minIndex];
     /* ↑改変箇所↑ */
     
