@@ -59,6 +59,7 @@ int main(void){
     //最小の非類似度を示すトレーニングデータが何番目なのかを記録するための変数
     int minIndex;
     
+    /* ↓改変箇所↓ */
     //最近傍のトレーニングデータを探索
     for(int j=0; j<trainData.rows(); j++){
       if(j==0 || minDist > distance[j])
@@ -67,9 +68,13 @@ int main(void){
 	minIndex = j;
       }
     }
+    /* ↑改変箇所↑ */
     
+    /* ↓改変箇所↓ */
     //テストデータのラベルを決定
+    if()
     testLabel[i] = trainCorrect[minIndex];
+    /* ↑改変箇所↑ */
     
     for(int x=0; x<trainData.rows(); x++){
       std::cout << "Train." << x << ": "
@@ -93,28 +98,33 @@ int main(void){
   /* ↓改変箇所↓ */
   int class0Number=0;
   int class1Number=0;
+  int nonClassNumber=0;
 
   std::cout << "----- Result -----" << std::endl;
   
   for(int i=0;i<tmp_testData.rows();i++){
+    std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << ", " << tmp_testData[i][1] << "]";
     for(int j=0;j<kNumber;j++){
-      std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << ", " << tmp_testData[i][1] << "]"
-	      << ", minIndex :" << minIndexArray[i]
+      std::cout << ", minIndex[" << j << "] :" << minIndexArray[i]
 	      << " -> [" << trainData[minIndexArray[i][j]][0]
 	      << ", " << trainData[minIndexArray[i][j]][1] << "]"
-	      << ", minDistance :" << minDistArray[i][j]
+	      << ", minDistance[" << i <<  << minDistArray[i][j]
 	      << ", Class -> " << testLabel[i] << std::endl;
+    }
     if(testLabel[i]==0){
       class0Number++;
     }
-    else{
+    else if(testLabel[i]==1){
       class1Number++;
     }
+    else{
+      nonClassNumber++;
     }
   }
 
   std::cout << "Class.0 data: " << class0Number << std::endl;
   std::cout << "Class.1 data: " << class1Number << std::endl;
+  std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
   /* ↑改変箇所↑ */
  
