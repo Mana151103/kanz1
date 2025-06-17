@@ -137,9 +137,11 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 	return r;
 }
 
-void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum){
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel){
 	//追加：結果を最後にまとめて表示
 	std::cout << "----- Result -----" << std::endl;
+	//追加：各ラベルのデータ数
+	int class0Number = 0, class1Number = 0, nonClassNumber = 0;
 
 	for (int i=0; i<tmp_testD.rows(); i++){
 		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << tmp_testD[i][1] << "]" << std::endl;
@@ -149,21 +151,21 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 				<< ", minDistance[" << i << "] :" << minDistArray[i] << ", ";
 		std::cout << "Class -> " << testLabel[i] << std::endl;
 		if (testLabel[i] == 0){
-			class0Num++;
+			class0Number++;
 		}
 		else if (testLabel[i] == 1){
-			class1Num++;
+			class1Number++;
 		}
 		else{ //分類不可の時（0,1ラベルの個数が同じ）
-			nonClassNum++;
+			nonClassNumber++;
 		}
 	}
 	//追加：各ラベルの個数表示
 	std::cout << std::endl;
 	std::cout << "----- number of data -----" << std::endl;
-	std::cout << "Class.0 data: " << class0Num << std::endl;
-	std::cout << "Class.1 data: " << class1Num << std::endl;
-	std::cout << "Class.? data: " << nonClassNum << std::endl;
+	std::cout << "Class.0 data: " << class0Number << std::endl;
+	std::cout << "Class.1 data: " << class1Number << std::endl;
+	std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
 	//追加：相関係数の表示
 	std::cout << std::endl;

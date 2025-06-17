@@ -28,10 +28,8 @@ int main(void){
 	for (int i=0; i<tmp_testData.rows(); i++){
 		serchK(tmp_testData, trainData, trainCorrect, testLabel, minDistArray, minIndexArray, i, k);
 	}
-	//追加：各ラベルのデータ数
-	int class0Number = 0, class1Number = 0, nonClassNumber = 0;
 	//追加：結果を最後にまとめて表示
-	printResult(tmp_testData, trainData, trainCorrect, minIndexArray, minDistArray, testLabel, class0Number, class1Number, nonClassNumber);
+	printResult(tmp_testData, trainData, trainCorrect, minIndexArray, minDistArray, testLabel);
 
 	//記録保存
 	recordClassified(tmp_testData, testLabel);
