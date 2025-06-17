@@ -18,6 +18,9 @@
 #ifndef __READDATA__
 #define __READDATA__
 
+//追加：kの値
+#define Hyperparameter 1
+
 VectorArray readTestData(const std::string &file, int dim);
 Vector readTestCorrect(const std::string &file);
 
@@ -27,4 +30,12 @@ Vector read_data(const std::string &fileName, VectorArray &data);
 Vector read_dataWithoutLabel(const std::string &fileName, VectorArray &data);
 void read_data2(const std::string &fileName, VectorArray &data, Vector &label, int dimension);
 void read_data3(const std::string &fileName, VectorArray &data, Vector &label);
+
+void printData(VectorArray& trainData, VectorArray& tmp_testData);
+void computeDistances(Vector& testData, VectorArray& trainData, Vector& distance, Vector& index);
+void selectTopK(Vector& distance, Vector& index, int k);
+Vector countLabels(Vector& trainCorrect, Vector& index, int k, int numLabels);
+int getMajorityLabel(Vector& labelCount, int& maxCount);
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum);
+double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c);
 #endif
