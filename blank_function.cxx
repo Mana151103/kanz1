@@ -91,44 +91,63 @@ void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorr
 }
 
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c){
-	double r, Sxy, Sxx, Syy, xyAve=0, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
-	int d=0;
+	double r, Sxy, Sxx, Syy, xyAve = 0, xAve = 0, x2Ave = 0, yAve = 0, y2Ave = 0;
+	int d = 0;
 
-	//Sxy=xyAve-xAve*yAve
-	//Sxx=x2Ave-(xAve)^2
-	//Syy=y2Ave-(yAve)^2
-	//r=Sxy/sqrt(Sxx*Syy)
+	//Sxy = xyAve - xAve*yAve
+	//Sxx = x2Ave - (xAve)^2
+	//Syy = y2Ave - (yAve)^2
+	//r = Sxy / sqrt(Sxx*Syy)
+
+	//↓変数の説明↓
+	//xAve: xの平均
+	//x2Ave: xの2乗の平均
+	//yAve: yの平均
+	//y2Ave: yの2乗の平均
+	//xyAve: xyの平均
+	//Sxx: xの分散
+	//Syy: yの分散
+	//Sxy: x,yの共分散
+	//r: 相関係数
+	//d: 該当するデータの数
+
+	//↓引数の説明↓
+	//testData: テストデータを格納しているVectorArray
+	//testLabel: テストデータのクラスを格納しているVector
+	//trainData: 教師データ(トレインデータ)を格納しているVectorArray
+	//trainCorrect: 教師データ(トレインデータ)のクラスを格納しているVector
+	//c: int型の参照するクラスのデータのクラス識別番号(c=-1のときに全データを参照する)
 
 	for(int i=0;i<testData.rows();i++){
-		if(testLabel[i]==c){
-		xAve+=testData[i][0];
-		x2Ave+=testData[i][0]*testData[i][0];
-		yAve+=testData[i][1];
-		y2Ave+=testData[i][1]*testData[i][1];
-		xyAve+=testData[i][0]*testData[i][1];
+		if(testLabel[i]==c || c==-1){
+		xAve += testData[i][0];
+		x2Ave += testData[i][0] * testData[i][0];
+		yAve += testData[i][1];
+		y2Ave += testData[i][1] * testData[i][1];
+		xyAve += testData[i][0] * testData[i][1];
 		d++;
 		}
 	}
 	for(int i=0;i<trainData.rows();i++){
-		if(trainCorrect[i]==c){
-		xAve+=trainData[i][0];
-		x2Ave+=trainData[i][0]*trainData[i][0];
-		yAve+=trainData[i][1];
-		y2Ave+=trainData[i][1]*trainData[i][1];
-		xyAve+=trainData[i][0]*trainData[i][1];
+		if(trainCorrect[i]==c || c==-1){
+		xAve += trainData[i][0];
+		x2Ave += trainData[i][0] * trainData[i][0];
+		yAve += trainData[i][1];
+		y2Ave += trainData[i][1] * trainData[i][1];
+		xyAve += trainData[i][0] * trainData[i][1];
 		d++;
 		}
 	}
 	if(d!=0){
-		xAve/=double(d);
-		x2Ave/=double(d);
-		yAve/=double(d);
-		y2Ave/=double(d);
-		xyAve/=double(d);
-		Sxy=xyAve-xAve*yAve;
-		Sxx=x2Ave-xAve*xAve;
-		Syy=y2Ave-yAve*yAve;
-		r=Sxy/sqrt(Sxx*Syy);
+		xAve /= double(d);
+		x2Ave /= double(d);
+		yAve /= double(d);
+		y2Ave /= double(d);
+		xyAve /= double(d);
+		Sxy = xyAve - xAve*yAve;
+		Sxx= x2Ave - xAve*xAve;
+		Syy= y2Ave - yAve*yAve;
+		r = Sxy / sqrt(Sxx*Syy);
 	}
 	else{
 		r=0;
@@ -165,12 +184,13 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
 	std::cout << "Class.1 data: " << class1Number << std::endl;
-	std::cout << "Class.? data: " << nonClassNumber << std::endl;
+	std::cout << "Unclassified data: " << nonClassNumber << std::endl;
+	std::cout << std::endl;
 
 	//追加：相関係数の表示
-	std::cout << std::endl;
 	std::cout << "----- correlationCoefficient -----" << std::endl;
 	std::cout << "Class.0: r=" << correlationCoefficient(tmp_testD, testLabel, trainD, trainCorrect, 0) << std::endl;
 	std::cout << "Class.1: r=" << correlationCoefficient(tmp_testD, testLabel, trainD, trainCorrect, 1) << std::endl;
+	std::cout << "All data: r=" << correlationCoefficient(tmp_testD, testLabel, trainD, trainCorrect, -1) << std::endl;
 	std::cout << std::endl;
 }
