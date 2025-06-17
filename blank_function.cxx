@@ -179,6 +179,9 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 			nonClassNumber++;
 		}
 	}
+	//改行
+	std::cout << std::endl;
+	
 	//追加：各ラベルの個数表示
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
