@@ -180,7 +180,6 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 		}
 	}
 	//追加：各ラベルの個数表示
-	std::cout << std::endl;
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
 	std::cout << "Class.1 data: " << class1Number << std::endl;
