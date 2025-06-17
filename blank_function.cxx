@@ -60,27 +60,34 @@ int getMajorityLabel(Vector& labelCount, int& maxCount){
 	return bestLabel;
 }
 
-void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum){
-	//追加：結果を最後にまとめて表示
-	std::cout << "----- Result -----" << std::endl;
+void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorrect, Vector& testLabel, Vector& minDistArray, Vector& minIndexArray, int i,int k){
+	//注目しているテストデータを格納するためのインスタンス
+	Vector testData = tmp_testData[i];
 
-	for (int i=0; i<tmp_testD.rows(); i++){
-		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << tmp_testD[i][1] << "]" << std::endl;
-		std::cout << "minIndex[" << i << "] :" << minIndexArray[i]
-				<< " -> [" << trainD[minIndexArray[i]][0]
-				<< ", " << trainD[minIndexArray[i]][1] << "]"
-				<< ", minDistance[" << i << "] :" << minDistArray[i] << ", ";
-		std::cout << "Class -> " << testLabel[i] << std::endl;
-		if (testLabel[i] == 0){
-			class0Num++;
-		}
-		else if (testLabel[i] == 1){
-			class1Num++;
-		}
-		else{ //分類不可の時（0,1ラベルの個数が同じ）
-			nonClassNum++;
-		}
-	}
+	//各トレーニングデータとの距離を格納するための配列
+	Vector distance(trainData.rows());
+	//追加：各トレーニングデータ番号を格納するための配列
+	Vector index(trainData.rows());
+
+	//各トレーニングデータとの距離を計算
+	computeDistances(testData, trainData, distance, index);
+
+	//追加：ソートしてベクトルdistanceとindexの中身を距離の短い順に並び変え
+	selectTopK(distance, index, k);
+
+	//追加：最小距離とそのトレーニング番号の保持
+	minDistArray[i] = distance[0];
+	minIndexArray[i] = index[0];
+
+	//追加：上位k個内の各ラベルの個数カウント
+	Vector labelCount = countLabels(trainCorrect, index, k, 2);
+
+	//追加：最も多いラベルを多数決で決定する
+	int maxCount = 0;
+	int bestLabel = getMajorityLabel(labelCount, maxCount);
+
+	//変更：テストデータのラベル確定
+	testLabel[i] = bestLabel;
 }
 
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c){
@@ -128,4 +135,40 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 	}
 
 	return r;
+}
+
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum){
+	//追加：結果を最後にまとめて表示
+	std::cout << "----- Result -----" << std::endl;
+
+	for (int i=0; i<tmp_testD.rows(); i++){
+		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << tmp_testD[i][1] << "]" << std::endl;
+		std::cout << "minIndex[" << i << "] :" << minIndexArray[i]
+				<< " -> [" << trainD[minIndexArray[i]][0]
+				<< ", " << trainD[minIndexArray[i]][1] << "]"
+				<< ", minDistance[" << i << "] :" << minDistArray[i] << ", ";
+		std::cout << "Class -> " << testLabel[i] << std::endl;
+		if (testLabel[i] == 0){
+			class0Num++;
+		}
+		else if (testLabel[i] == 1){
+			class1Num++;
+		}
+		else{ //分類不可の時（0,1ラベルの個数が同じ）
+			nonClassNum++;
+		}
+	}
+	//追加：各ラベルの個数表示
+	std::cout << std::endl;
+	std::cout << "----- number of data -----" << std::endl;
+	std::cout << "Class.0 data: " << class0Num << std::endl;
+	std::cout << "Class.1 data: " << class1Num << std::endl;
+	std::cout << "Class.? data: " << nonClassNum << std::endl;
+
+	//追加：相関係数の表示
+	std::cout << std::endl;
+	std::cout << "----- correlationCoefficient -----" << std::endl;
+	std::cout << "Class.0: r=" << correlationCoefficient(tmp_testD, testLabel, trainD, trainCorrect, 0) << std::endl;
+	std::cout << "Class.1: r=" << correlationCoefficient(tmp_testD, testLabel, trainD, trainCorrect, 1) << std::endl;
+	std::cout << std::endl;
 }

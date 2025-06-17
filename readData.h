@@ -36,6 +36,9 @@ void computeDistances(Vector& testData, VectorArray& trainData, Vector& distance
 void selectTopK(Vector& distance, Vector& index, int k);
 Vector countLabels(Vector& trainCorrect, Vector& index, int k, int numLabels);
 int getMajorityLabel(Vector& labelCount, int& maxCount);
-void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum);
+void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorrect, Vector& testLabel, Vector& minDistArray, Vector& minIndexArray, int i,int k);
+
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum);
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c);
+
 #endif
