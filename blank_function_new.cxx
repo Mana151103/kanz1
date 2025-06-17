@@ -20,7 +20,7 @@ void computeDistances(Vector& testData, VectorArray& trainData, Vector& distance
     for (int j = 0; j < trainData.rows(); ++j) {
         double dx = testData[0] - trainData[j][0];
         double dy = testData[1] - trainData[j][1];
-        distance[j] = dx * dx + dy * dy;
+        distance[j] = dx*dx + dy*dy;
         index[j] = j;
     }
 }
@@ -62,7 +62,7 @@ int getMajorityLabel(Vector& labelCount, Vector& maxCount, int i){
 	return bestLabel;
 }
 
-void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorrect, Vector& testLabel, Vector& minDistArray, Vector& minIndexArray, int i,int k, Vector& maxCount){
+void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorrect, Vector& testLabel, VectorArray& minIndexArray, int i,int k, Vector& maxCount){
 	//注目しているテストデータを格納するためのインスタンス
 	Vector testData = tmp_testData[i];
 
@@ -77,9 +77,10 @@ void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorr
 	//追加：ソートしてベクトルdistanceとindexの中身を距離の短い順に並び変え
 	selectTopK(distance, index, k);
 
-	//追加：最小距離とそのトレーニング番号の保持
-	minDistArray[i] = distance[0];
-	minIndexArray[i] = index[0];
+	//トレーニング番号の保持
+	for (int r=0; r<k; r++){
+		minIndexArray[i][r] = index[r];
+	}
 
 	//追加：上位k個内の各ラベルの個数カウント
 	Vector labelCount = countLabels(trainCorrect, index, k, 2);
@@ -138,37 +139,35 @@ double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorAr
 	return r;
 }
 
-void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int k, Vector& maxCount){
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, VectorArray& minIndexArray, Vector& testLabel, int k, Vector& maxCount){
 	//追加：結果を最後にまとめて表示
 	std::cout << "----- Result -----" << std::endl;
 	//追加：各ラベルのデータ数
-	int class0Number = 0, class1Number = 0, nonClassNumber = 0;
+	int class0Number = 0, class1Number = 0;
 
 	for (int i=0; i<tmp_testD.rows(); i++){
 		double confidence = static_cast<double>(maxCount[i]) / k;
 
 		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << tmp_testD[i][1] << "]" << std::endl;
-		std::cout << "minIndex[" << i << "] :" << minIndexArray[i]
-				<< " -> [" << trainD[minIndexArray[i]][0]
-				<< ", " << trainD[minIndexArray[i]][1] << "]"
-				<< ", minDistance[" << i << "] :" << minDistArray[i] << ", ";
-		std::cout << "Class -> " << testLabel[i] << ", Confidence["  << i << "] :" << confidence * 100 << "%" << std::endl;
+		std::cout << "minIndex: ";
+		for (int r=0; r<minIndexArray[i].size(); r++){
+			std::cout << minIndexArray[i][r] << ", ";
+		}
+		std::cout << std::endl;
+		std::cout << "Class -> " << testLabel[i] << ", Confidence:" << confidence * 100 << "%" << std::endl;
 		if (testLabel[i] == 0){
 			class0Number++;
 		}
 		else if (testLabel[i] == 1){
 			class1Number++;
 		}
-		else{ //分類不可の時（0,1ラベルの個数が同じ）
-			nonClassNumber++;
-		}
 	}
+
 	//追加：各ラベルの個数表示
 	std::cout << std::endl;
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
 	std::cout << "Class.1 data: " << class1Number << std::endl;
-	std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
 	//追加：相関係数の表示
 	std::cout << std::endl;
