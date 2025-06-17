@@ -90,7 +90,7 @@ void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorr
 	testLabel[i] = bestLabel;
 }
 
-double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c){
+double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorArray& trainData, Vector& trainCorrect, int& c){
 	double r, Sxy, Sxx, Syy, xyAve = 0, xAve = 0, x2Ave = 0, yAve = 0, y2Ave = 0;
 	int d = 0;
 
@@ -181,7 +181,7 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 	}
 	//改行
 	std::cout << std::endl;
-	
+
 	//追加：各ラベルの個数表示
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
