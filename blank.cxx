@@ -13,6 +13,7 @@ int main(void){
 
 	//追加：kの定義
 	int k = Hyperparameter;
+<<<<<<< HEAD
 	//(読み込んだデータの画面表示)
 	// std::cout << "Training-Data:" << std::endl;
 	// for(int x=0; x<trainData.rows(); x++){
@@ -21,6 +22,20 @@ int main(void){
 	// }
 	// std::cout << std::endl;
 
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
+	//(読み込んだデータの画面表示)
+	// std::cout << "Training-Data:" << std::endl;
+	// for(int x=0; x<trainData.rows(); x++){
+	// 	std::cout << "Train." << x << ": "
+	// 		<< "[" << trainData[x][0] << ", " << trainData[x][1] << "]\n";
+	// }
+	// std::cout << std::endl;
+
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 	// std::cout << "Test-Data:" << std::endl;
 	// for(int y=0; y<tmp_testData.rows(); y++){
 	// 	std::cout << "Test." << y << ": "
@@ -36,9 +51,15 @@ int main(void){
 		//注目しているテストデータを格納するためのインスタンス
 		Vector testData = tmp_testData[i];
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 		//追加：テストデータとトレインデータの距離、トレーニングデータ番号を格納するベクトル
 		//std::vector<std::pair<double, int>> distIndexPairs;
 
+=======
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 		//各トレーニングデータとの距離を格納するための配列
 		Vector distance(trainData.rows());
 		//追加：各トレーニングデータ番号を格納するための配列
@@ -49,7 +70,14 @@ int main(void){
 			double dx = testData[0] - trainData[j][0];
 			double dy = testData[1] - trainData[j][1];
 			double dist = dx*dx + dy*dy;
+<<<<<<< HEAD
 			//distIndexPairs.push_back({distance, j});
+=======
+<<<<<<< HEAD
+			//distIndexPairs.push_back({distance, j});
+=======
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 			distance[j] = dist;
 			index[j] = j;
 		}
@@ -68,6 +96,10 @@ int main(void){
 		}
 
 		//追加：上位k個内の各ラベルの個数カウント
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 		//std::map<int, int> labelCount;//ラベルごとの出現数を記録
 		Vector labelCount(2);
 		// for(int m=0; m<k; m++){
@@ -75,6 +107,12 @@ int main(void){
 		// 	int label = trainCorrect[trainIndex][2];
 		// 	labelCount[label]++;
 		// }
+<<<<<<< HEAD
+=======
+=======
+		Vector labelCount(2);
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 		for (int m=0; m<k; m++){
 			int trainIndex = index[m];
 			int label = static_cast<int>(trainCorrect[trainIndex]);
@@ -89,12 +127,21 @@ int main(void){
 				bestLabel = n;
 			}
 		}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 	// 	for (const auto& entry : labelCount) {
 	// 	if (entry.second > maxCount) {
 	// 		maxCount = entry.second;
 	// 		bestLabel = entry.first; // ←こっちが正しい
 	// 	}
 	// }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
+>>>>>>> 62016d799ea76819e32ed7ac574a7dd792b2b2c5
 
 		//変更：テストデータのラベル確定
 		testLabel[i] = bestLabel;
@@ -103,6 +150,7 @@ int main(void){
 		std::cout << "Test." << i
 		<< ": Predicted Label = " << bestLabel
 			  << ", Confidence = " << confidence * 100 << "%\n";
+<<<<<<< HEAD
 		// //最小の非類似度の値を保持するための変数
 		// double minDist = pow(10,300); //10の300乗
 		
@@ -128,6 +176,8 @@ int main(void){
 
 		// //問2確認用
 		// std::cout << "minIndex :" << minIndex << std::endl << std::endl;
+=======
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 	}
 	
 	//記録保存

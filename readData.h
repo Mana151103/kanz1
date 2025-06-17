@@ -38,7 +38,11 @@ Vector countLabels(Vector& trainCorrect, Vector& index, int k, int numLabels);
 int getMajorityLabel(Vector& labelCount, Vector& maxCount, int i);
 void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorrect, Vector& testLabel, Vector& minDistArray, Vector& minIndexArray, int i,int k, Vector& maxCount);
 
+<<<<<<< HEAD
 void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int k, Vector& maxCount);
+=======
+void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorrect, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel);
+>>>>>>> 8829d72d29a9be0691315890205aa6de62ce3244
 double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorArray& trainData, Vector& trainCorrect, int c);
 
 #endif
