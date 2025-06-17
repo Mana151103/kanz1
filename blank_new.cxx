@@ -127,7 +127,7 @@ int main(void){
 
 	//相関係数の表示
 	std::cout << std::endl;
-	std::cout << "----- correlationCoefficient -----" << std::endl;
+	std::cout << "----- Correlation coefficient -----" << std::endl;
 	std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 0) << std::endl;
 	std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 1) << std::endl;
 	std::cout << "All data: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, -1) << std::endl;
