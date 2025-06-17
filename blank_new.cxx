@@ -1,6 +1,7 @@
 #include"readData.h"
 
 //コンパイルコマンドは
+<<<<<<< HEAD
 // g++ blank.cxx vector.o vectorArray.o readData.cxx
 
 void computeDistances(const Vector& testData, const VectorArray& trainData, Vector& distance, Vector& index);
@@ -12,6 +13,9 @@ Vector countLabels(const Vector& trainCorrect, const Vector& index, int k, int n
 int getMajorityLabel(const Vector& labelCount, int& maxCount);
 
 void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum);
+=======
+// g++ blank_new.cxx vector.o vectorArray.o readData.cxx
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c);
 
@@ -58,26 +62,68 @@ int main(void){
 		Vector index(trainData.rows());
 		
 		//各トレーニングデータとの距離を計算
+<<<<<<< HEAD
 		computeDistances(testData, trainData, distance, index);
 
 		//追加：ソートしてベクトルdistanceとindexの中身を距離の短い順に並び変え
 		selectTopK(distance, index, k);
+=======
+		for (int j=0; j<trainData.rows(); j++){
+			double dx = testData[0] - trainData[j][0];
+			double dy = testData[1] - trainData[j][1];
+			double dist = dx*dx + dy*dy;
+			distance[j] = dist;
+			index[j] = j;
+		}
+
+		//追加：ソートしてベクトルdistanceとindexの中身を距離の短い順に並び変え
+		for (int a=0; a<k; a++){
+			int minIndex = a;
+			for (int b=a+1; b<index.size(); b++){
+				if (distance[b]< distance[minIndex]){
+					minIndex = b;
+				}
+			}
+			//a番目の要素とminIndexの要素を入れ替える
+			std::swap(distance[a], distance[minIndex]);
+			std::swap(index[a], index[minIndex]);
+		}
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 
 		//追加：最小距離とそのトレーニング番号の保持
 		minDistArray[i] = distance[0];
 		minIndexArray[i] = index[0];
 
 		//追加：上位k個内の各ラベルの個数カウント
+<<<<<<< HEAD
 		Vector labelCount = countLabels(trainCorrect, index, k, 2);
 
 		//追加：最も多いラベルを多数決で決定する
 		int maxCount = 0;
 		int bestLabel = getMajorityLabel(labelCount, maxCount);
+=======
+		Vector labelCount(2);
+		for (int m=0; m<k; m++){
+			int trainIndex = index[m];
+			int label = static_cast<int>(trainCorrect[trainIndex]);
+			labelCount[label]++;
+		}
+
+		//追加：最も多いラベルを多数決で決定する
+		int bestLabel = 0, maxCount = 0;
+		for (int n=0; n<labelCount.size(); n++){
+			if (labelCount[n] > maxCount){
+				maxCount = labelCount[n];
+				bestLabel = n;
+			}
+		}
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 
 		//変更：テストデータのラベル確定
 		testLabel[i] = bestLabel;
 	}
 
+<<<<<<< HEAD
 	//追加：各ラベルのデータ数
 	int class0Number = 0, class1Number = 0, nonClassNumber = 0;
 
@@ -102,12 +148,38 @@ int main(void){
 	// 	}
 	// }
 	printResult(tmp_testData, trainData, minIndexArray, minDistArray, testLabel, class0Number, class1Number, nonClassNumber);
+=======
+	//追加：結果を最後にまとめて表示
+	std::cout << "----- Result -----" << std::endl;
+
+	//追加：各ラベルのデータ数
+	int class0Number = 0, class1Number = 0, nonClassNumber = 0;
+
+	for (int i=0; i<tmp_testData.rows(); i++){
+	  std::cout << "TestData." << i << ": [" << tmp_testData[i][0] << tmp_testData[i][1] << "]" << std::endl;
+	  std::cout << "minIndex[" << i << "] :" << minIndexArray[i]
+		    << " -> [" << trainData[minIndexArray[i]][0]
+		    << ", " << trainData[minIndexArray[i]][1] << "]"
+		    << ", minDistance[" << i << "] :" << minDistArray[i] << ", ";
+	  std::cout << "Class -> " << testLabel[i] << std::endl;
+	  if (testLabel[i] == 0){
+	    class0Number++;
+	  }
+	  else if (testLabel[i] == 1){
+	    class1Number++;
+	  }
+	  else{ //分類不可の時（0,1ラベルの個数が同じ）
+	    nonClassNumber++;
+	  }
+	}
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 
 	//追加：各ラベルの個数表示
 	std::cout << std::endl;
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
 	std::cout << "Class.1 data: " << class1Number << std::endl;
+<<<<<<< HEAD
 	std::cout << "Class.? data: " << nonClassNumber << std::endl;
 
 	//相関係数の表示
@@ -115,6 +187,16 @@ int main(void){
 	std::cout << "----- correlationCoefficient -----" << std::endl;
 	std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 0) << std::endl;
 	std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 1) << std::endl;
+=======
+	std::cout << "Unclassified data: " << nonClassNumber << std::endl;
+
+	//相関係数の表示
+	std::cout << std::endl;
+	std::cout << "----- Correlation coefficient -----" << std::endl;
+	std::cout << "Class.0: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 0) << std::endl;
+	std::cout << "Class.1: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, 1) << std::endl;
+	std::cout << "All data: r=" << correlationCoefficient(tmp_testData, testLabel, trainData, trainCorrect, -1) << std::endl;
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 
 	//記録保存
 	recordClassified(tmp_testData, testLabel);
@@ -124,6 +206,7 @@ int main(void){
 
 //相関係数計算
 double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArray trainData, Vector trainCorrect, int c){
+<<<<<<< HEAD
 	double r, Sxy, Sxx, Syy, xyAve=0, xAve=0, x2Ave=0, yAve=0, y2Ave=0;
 	int d=0;
 
@@ -139,20 +222,66 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 		yAve+=testData[i][1];
 		y2Ave+=testData[i][1]*testData[i][1];
 		xyAve+=testData[i][0]*testData[i][1];
+=======
+	double r, Sxy, Sxx, Syy, xyAve = 0, xAve = 0, x2Ave = 0, yAve = 0, y2Ave = 0;
+	int d = 0;
+
+	//Sxy = xyAve - xAve*yAve
+	//Sxx = x2Ave - (xAve)^2
+	//Syy = y2Ave - (yAve)^2
+	//r = Sxy / sqrt(Sxx*Syy)
+
+	//↓変数の説明↓
+	//xAve: xの平均
+	//x2Ave: xの2乗の平均
+	//yAve: yの平均
+	//y2Ave: yの2乗の平均
+	//xyAve: xyの平均
+	//Sxx: xの分散
+	//Syy: yの分散
+	//Sxy: x,yの共分散
+	//r: 相関係数
+	//d: 該当するデータの数
+
+	//↓引数の説明↓
+	//testData: テストデータを格納しているVectorArray
+	//testLabel: テストデータのクラスを格納しているVector
+	//trainData: 教師データ(トレインデータ)を格納しているVectorArray
+	//trainCorrect: 教師データ(トレインデータ)のクラスを格納しているVector
+	//c: int型の参照するクラスのデータのクラス識別番号(c=-1のときに全データを参照する)
+
+	for(int i=0;i<testData.rows();i++){
+		if(testLabel[i]==c || c==-1){
+		xAve += testData[i][0];
+		x2Ave += testData[i][0] * testData[i][0];
+		yAve += testData[i][1];
+		y2Ave += testData[i][1] * testData[i][1];
+		xyAve += testData[i][0] * testData[i][1];
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 		d++;
 		}
 	}
 	for(int i=0;i<trainData.rows();i++){
+<<<<<<< HEAD
 		if(trainCorrect[i]==c){
 		xAve+=trainData[i][0];
 		x2Ave+=trainData[i][0]*trainData[i][0];
 		yAve+=trainData[i][1];
 		y2Ave+=trainData[i][1]*trainData[i][1];
 		xyAve+=trainData[i][0]*trainData[i][1];
+=======
+		if(trainCorrect[i]==c || c==-1){
+		xAve += trainData[i][0];
+		x2Ave += trainData[i][0] * trainData[i][0];
+		yAve += trainData[i][1];
+		y2Ave += trainData[i][1] * trainData[i][1];
+		xyAve += trainData[i][0] * trainData[i][1];
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 		d++;
 		}
 	}
 	if(d!=0){
+<<<<<<< HEAD
 		xAve/=double(d);
 		x2Ave/=double(d);
 		yAve/=double(d);
@@ -162,6 +291,17 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 		Sxx=x2Ave-xAve*xAve;
 		Syy=y2Ave-yAve*yAve;
 		r=Sxy/sqrt(Sxx*Syy);
+=======
+		xAve /= double(d);
+		x2Ave /= double(d);
+		yAve /= double(d);
+		y2Ave /= double(d);
+		xyAve /= double(d);
+		Sxy = xyAve - xAve*yAve;
+		Sxx= x2Ave - xAve*xAve;
+		Syy= y2Ave - yAve*yAve;
+		r = Sxy / sqrt(Sxx*Syy);
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
 	}
 	else{
 		r=0;
@@ -169,6 +309,7 @@ double correlationCoefficient(VectorArray testData, Vector testLabel, VectorArra
 
 	return r;
 }
+<<<<<<< HEAD
 
 void computeDistances(const Vector& testData, const VectorArray& trainData, Vector& distance, Vector& index){
     for (int j = 0; j < trainData.rows(); ++j) {
@@ -236,3 +377,5 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexAr
 		}
 	}
 }
+=======
+>>>>>>> 489eeddc2376a702ec3208d8122e4f01569baa6b
