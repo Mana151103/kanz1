@@ -90,7 +90,7 @@ void serchK(VectorArray& tmp_testData, VectorArray& trainData, Vector& trainCorr
 	testLabel[i] = bestLabel;
 }
 
-double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorArray& trainData, Vector& trainCorrect, int& c){
+double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorArray& trainData, Vector& trainCorrect, int c){
 	double r, Sxy, Sxx, Syy, xyAve = 0, xAve = 0, x2Ave = 0, yAve = 0, y2Ave = 0;
 	int d = 0;
 
