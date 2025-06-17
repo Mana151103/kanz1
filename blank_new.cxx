@@ -9,7 +9,7 @@ void selectTopK(Vector& distance, Vector& index, int k);
 
 Vector countLabels(const Vector& trainCorrect, const Vector& index, int k, int numLabels);
 
-int getMajorityLabel(const Vector& labelCount, int& maxCount);
+int getMajorityLabel(const Vector& labelCount);
 
 void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& minIndexArray, Vector& minDistArray, Vector& testLabel, int class0Num, int class1Num, int nonClassNum);
 
@@ -71,8 +71,7 @@ int main(void){
 		Vector labelCount = countLabels(trainCorrect, index, k, 2);
 
 		//追加：最も多いラベルを多数決で決定する
-		int maxCount = 0;
-		int bestLabel = getMajorityLabel(labelCount, maxCount);
+		int bestLabel = getMajorityLabel(labelCount);
 
 		//変更：テストデータのラベル確定
 		testLabel[i] = bestLabel;
@@ -204,7 +203,7 @@ Vector countLabels(const Vector& trainCorrect, const Vector& index, int k, int n
     return labelCount;
 }
 
-int getMajorityLabel(const Vector& labelCount, int& maxCount){
+int getMajorityLabel(const Vector& labelCount){
 	int bestLabel = 0, maxCount = 0;
 	for (int n=0; n<labelCount.size(); n++){
 		if (labelCount[n] > maxCount){
