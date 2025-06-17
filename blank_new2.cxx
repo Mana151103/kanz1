@@ -6,9 +6,9 @@
 int main(void){
 	/*------ここからデータの読み取り------*/
 	VectorArray trainData;
-	Vector trainCorrect = read_data("2d2c-train.plot", trainData);
+	Vector trainCorrect = read_data("sports.plot", trainData);
 	VectorArray tmp_testData;
-	Vector testCorrect = read_dataWithoutLabel("2d2c-test.data", tmp_testData);
+	Vector testCorrect = read_dataWithoutLabel("test_sports.data", tmp_testData);
 	/*------ここまでデータの読み取り------*/
 
 	//追加：kの定義

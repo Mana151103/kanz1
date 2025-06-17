@@ -167,13 +167,14 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 	for (int i=0; i<tmp_testD.rows(); i++){
 		double confidence = static_cast<double>(maxCount[i]) / k;
 
-		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << tmp_testD[i][1] << "]" << std::endl;
+		std::cout << "TestData." << i << ": [" << tmp_testD[i][0] << ", " << tmp_testD[i][1] << "]" << std::endl;
 		std::cout << "minIndex: ";
 		for (int r=0; r<minIndexArray[i].size(); r++){
 			std::cout << minIndexArray[i][r] << ", ";
 		}
 		std::cout << std::endl;
 		std::cout << "Class -> " << testLabel[i] << ", Confidence:" << confidence * 100 << "%" << std::endl;
+		std::cout << std::endl;
 		if (testLabel[i] == 0){
 			class0Number++;
 		}
@@ -183,7 +184,6 @@ void printResult(VectorArray& tmp_testD, VectorArray& trainD, Vector& trainCorre
 	}
 
 	//追加：各ラベルの個数表示
-	std::cout << std::endl;
 	std::cout << "----- number of data -----" << std::endl;
 	std::cout << "Class.0 data: " << class0Number << std::endl;
 	std::cout << "Class.1 data: " << class1Number << std::endl;

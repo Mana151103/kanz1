@@ -19,7 +19,7 @@
 #define __READDATA__
 
 //追加：kの値
-#define Hyperparameter 1
+#define Hyperparameter 250
 
 VectorArray readTestData(const std::string &file, int dim);
 Vector readTestCorrect(const std::string &file);
