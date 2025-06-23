@@ -1,12 +1,14 @@
 工夫点
 
 ・クラスごとのデータと全データの相関係数を画面表示させた
+出力結果の一部
 ----- correlationCoefficient -----
 Class.0: r=-0.182613
 Class.1: r=0.0205726
 All data: r=0.794333
 
 ・分類結果の確信度を計算し、画面表示させた
+出力結果の一部
 TestData.0: [-0.962073, -1.49651]
 minIndex: 35, 
 Class -> 0, Confidence:100%
@@ -17,6 +19,7 @@ Class -> 0, Confidence:100%
 #define Hyperparameter 1
 
 ・ユークリッド距離が短い順にkNNで参照したトレインデータを画面表示させた
+出力結果の一部
 TestData.23: [-1.17193, -1.06581]
 minIndex: 41, 9, 39, 27, 0, 19, 28, 
 Class -> 0, Confidence:100%
