@@ -22,13 +22,7 @@ TestData.23: [-1.17193, -1.06581]
 minIndex: 41, 9, 39, 27, 0, 19, 28, 
 Class -> 0, Confidence:100%
 
-TestData.24: [-0.761253, -0.59539]
-minIndex: 26, 14, 45, 22, 23, 7, 28, 
-Class -> 0, Confidence:100%
-
-TestData.25: [0.426538, 0.40993]
-minIndex: 81, 56, 66, 64, 94, 50, 55, 
-Class -> 1, Confidence:100%
+※上記のminIndexが参照したトレインデータ番号
 
 ・クラス分類結果の確信度とクラス分類後の各クラスのテストデータ数を画面表示させた
 ----- number of data -----
