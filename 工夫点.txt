@@ -14,6 +14,9 @@ Class -> 0, Confidence:100%
 
 ※上記のConfidenceが確信度
 
+・kNNのkが任意の自然数に対応するようにした
+#define Hyperparameter 1
+
 ・ユークリッド距離が短い順にkNNで参照したトレインデータを画面表示させた
 TestData.23: [-1.17193, -1.06581]
 minIndex: 41, 9, 39, 27, 0, 19, 28, 
@@ -67,6 +70,3 @@ int main(void){
 
 	return 0;
 }
-
-・kNNのkが任意の自然数に対応するようにした
-#define Hyperparameter 1
