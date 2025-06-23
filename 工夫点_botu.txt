@@ -1,94 +1,17 @@
 工夫点
 
-・ピアソンの積率相関係数を計算する関数を設け、画面表示させた
------ correlationCoefficient -----
-Class.0: r=-0.182613
-Class.1: r=0.0205726
-All data: r=0.794333
-↑クラスごとのデータと全データの相関係数を表示した。
+・クラス分類後のテストデータの、クラスごとのピアソンの積率相関係数と全テストデータにおけるピアソンの積率相関係数を計算する関数を作成し、テストデータの関係性を図る指標値を設けた
 
 ・分類結果の確信度を計算し、kNNの予測の信頼性を示した
-TestData.0: [-0.962073, -1.49651]
- minIndex: 35, 
-Class -> 0, Confidence:100%
 
-・ユークリッド距離が短い順にkNNで参照したトレインデータを画面表示させた
 
-クラス分類結果の確信度と分類後の各クラスのテストデータ数
+・分類結果の画面表示において、kNNのkの値が任意の自然数であっても参照したトレインデータが、ユークリッド距離が短い順に表示されるようにした。また、クラス分類結果の確信度と分類後の各クラスのテストデータ数、①で計算したピアソンの積率相関係数を追加した。
 
-・main関数内の処理を関数化し、関数用のファイルを新たに作成して、main関数内の処理の流れを見やすくした（コードの可読性を上げた）
+・main関数内の処理を関数化し、関数用ファイルを作成
 
 ・kNNのkが任意の自然数に対応するようにした
 
---------各工夫点に対応するコード--------
 
-①function.cxx内の7番目の関数
-
-double correlationCoefficient(VectorArray& testData, Vector& testLabel, VectorArray& trainData, Vector& trainCorrect, int c){
-	double r, Sxy, Sxx, Syy, xyAve = 0, xAve = 0, x2Ave = 0, yAve = 0, y2Ave = 0;
-	int d = 0;
-
-	//Sxy = xyAve - xAve*yAve
-	//Sxx = x2Ave - (xAve)^2
-	//Syy = y2Ave - (yAve)^2
-	//r = Sxy / sqrt(Sxx*Syy)
-
-	//↓変数の説明↓
-	//xAve: xの平均
-	//x2Ave: xの2乗の平均
-	//yAve: yの平均
-	//y2Ave: yの2乗の平均
-	//xyAve: xyの平均
-	//Sxx: xの分散
-	//Syy: yの分散
-	//Sxy: x,yの共分散
-	//r: 相関係数
-	//d: 該当するデータの数
-
-	//↓引数の説明↓
-	//testData: テストデータを格納しているVectorArray
-	//testLabel: テストデータのクラスを格納しているVector
-	//trainData: 教師データ(トレインデータ)を格納しているVectorArray
-	//trainCorrect: 教師データ(トレインデータ)のクラスを格納しているVector
-	//c: int型の参照するクラスのデータのクラス識別番号(c=-1のときに全データを参照する)
-
-	for(int i=0;i<testData.rows();i++){
-		if(testLabel[i]==c || c==-1){
-		xAve += testData[i][0];
-		x2Ave += testData[i][0] * testData[i][0];
-		yAve += testData[i][1];
-		y2Ave += testData[i][1] * testData[i][1];
-		xyAve += testData[i][0] * testData[i][1];
-		d++;
-		}
-	}
-	for(int i=0;i<trainData.rows();i++){
-		if(trainCorrect[i]==c || c==-1){
-		xAve += trainData[i][0];
-		x2Ave += trainData[i][0] * trainData[i][0];
-		yAve += trainData[i][1];
-		y2Ave += trainData[i][1] * trainData[i][1];
-		xyAve += trainData[i][0] * trainData[i][1];
-		d++;
-		}
-	}
-	if(d!=0){
-		xAve /= double(d);
-		x2Ave /= double(d);
-		yAve /= double(d);
-		y2Ave /= double(d);
-		xyAve /= double(d);
-		Sxy = xyAve - xAve*yAve;
-		Sxx= x2Ave - xAve*xAve;
-		Syy= y2Ave - yAve*yAve;
-		r = Sxy / sqrt(Sxx*Syy);
-	}
-	else{
-		r=0;
-	}
-
-	return r;
-}
 
 ②function.cxx内の最後の関数printResult内でConfidenceとして画面出力している。計算にあたり関数countLabelsで求められるmaxCountを使用。（確信度＝分類されたクラスがk個中何個あるか/k*100 % ⇒Confidence=maxCount/k*100 %）
 
